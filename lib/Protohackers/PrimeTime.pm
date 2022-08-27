@@ -1,7 +1,8 @@
 package Protohackers::PrimeTime;
 
-use Mojo::Base -strict;
-use base 'Net::Server::Fork';
+use Mojo::Base 'Net::Server::Fork';
+
+use Protohackers::Base qw(debug log_and_send);
 
 use Const::Fast;
 use JSON::XS;
@@ -17,7 +18,7 @@ sub process_request {
 
     while(my $line = <STDIN>) {
         $line =~ s/\r?\n$//;
-        warn "received $line\n";
+        debug("received $line");
         my $malformed = 0;
 
         try {
@@ -60,12 +61,4 @@ sub isNumber {
     return length($_[0] & "");
 }
 
-sub log_and_send {
-    my ($status, $response) = @_;
-    warn "$status\n";
-    warn "sending repsonse: $response\n";
-    print "$response\n";
-}
-
 1;
-
