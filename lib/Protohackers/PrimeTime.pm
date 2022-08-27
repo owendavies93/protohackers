@@ -47,8 +47,7 @@ sub process_request {
                 });
             }
         } catch {
-            log_and_send('invalid JSON', $MALFORMED);
-            warn $!;
+            log_and_send($!, $MALFORMED);
             $malformed = 1;
         };
 
@@ -58,7 +57,7 @@ sub process_request {
 
 sub isNumber {
     no warnings "numeric";
-    length($_[0] & "");
+    return length($_[0] & "");
 }
 
 sub log_and_send {
